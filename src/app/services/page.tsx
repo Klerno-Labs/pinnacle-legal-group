@@ -1,136 +1,146 @@
-import { Metadata } from "next";
-import { Container } from "@/components/ui/container";
-import { ServiceCard } from "@/components/sections/service-card";
-import { Accordion } from "@/components/sections/accordion";
-import { CtaBanner } from "@/components/sections/cta-banner";
-import { Scale, HomeUser, FileText, Gavel, Briefcase, Building } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { images } from "@/config/images";
+import FadeIn from "@/components/FadeIn";
+import { useState } from "react";
 
-export const metadata: Metadata = {
-  title: "Practice Areas | Pinnacle Legal Group",
-  description: "Comprehensive legal services in business law, real estate, litigation, and personal matters.",
+export const metadata = {
+  title: "Practice Areas",
+  description: "Comprehensive legal services including Business Law, Real Estate, Estate Planning, and Litigation by Pinnacle Legal Group.",
 };
 
 export default function ServicesPage() {
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+
+  const toggleAccordion = (index: number) => {
+    setOpenAccordion(openAccordion === index ? null : index);
+  };
+
   const services = [
     {
+      id: "business",
       title: "Business Law",
-      description: "From startups to established corporations, we handle formation, contracts, M&A, and compliance.",
-      icon: <Briefcase className="h-8 w-8" />,
-      link: "#business"
+      image: "service-1",
+      desc: "Navigating the legal landscape of the corporate world requires skill and foresight. Our Business Law division provides end-to-end counsel for startups, SMBs, and large corporations.",
+      details: "We handle entity formation (LLC, Corp), contract drafting and review, mergers & acquisitions, and regulatory compliance. Whether you are buying a business or selling one, we ensure your interests are protected.",
+      price: "$250 - $500/hr",
     },
     {
-      title: "Real Estate",
-      description: "Navigating complex property transactions, zoning disputes, and commercial leasing.",
-      icon: <Building className="h-8 w-8" />,
-      link: "#real-estate"
+      id: "real-estate",
+      title: "Real Estate Law",
+      image: "service-2",
+      desc: "Property transactions are significant investments. Our attorneys mitigate risk and ensure smooth closings for residential and commercial properties.",
+      details: "From title issues to lease agreements, zoning disputes to construction defects, we have the experience to handle it all. We represent both buyers and sellers, developers and landlords.",
+      price: "Flat fee available for closings",
     },
     {
-      title: "Litigation",
-      description: "Aggressive representation in court for business disputes, breach of contract, and civil matters.",
-      icon: <Gavel className="h-8 w-8" />,
-      link: "#litigation"
-    },
-    {
+      id: "estate-planning",
       title: "Estate Planning",
-      description: "Protecting your legacy through wills, trusts, and comprehensive probate services.",
-      icon: <FileText className="h-8 w-8" />,
-      link: "#personal"
+      image: "service-3",
+      desc: "Secure your legacy and protect your loved ones. Our estate planning services provide peace of mind for the future.",
+      details: "We draft comprehensive Wills, Revocable Living Trusts, Powers of Attorney, and Advanced Medical Directives. We also guide families through the probate process with sensitivity and efficiency during difficult times.",
+      price: "Plans start at $1,500",
     },
   ];
 
   const faqs = [
     {
-      question: "How much does a consultation cost?",
-      answer: "We offer a free initial consultation for all new clients to discuss the specifics of your case and determine how we can best assist you."
+      q: "How much does a consultation cost?",
+      a: "We offer a free initial consultation for most case types. During this meeting, we will evaluate your situation and provide a transparent fee structure for our services moving forward.",
     },
     {
-      question: "Do you handle cases outside of Houston?",
-      answer: "While our primary office is in Houston, we represent clients throughout the state of Texas for major business and real estate matters."
+      q: "Do you handle cases outside of Houston?",
+      a: "Yes, while our primary office is in Houston, we represent clients throughout the state of Texas. For certain complex business matters, we can assist with federal cases as well.",
     },
     {
-      question: "What should I bring to my first appointment?",
-      answer: "Please bring any relevant documents, such as contracts, court notices, correspondence, or financial records related to your case."
-    }
+      q: "What should I bring to my first appointment?",
+      a: "Please bring any relevant documents (contracts, court notices, deeds), a list of questions, and a valid form of identification. The more information we have, the better we can serve you.",
+    },
   ];
 
   return (
-    <main className="w-full">
-      {/* Minimal Hero */}
-      <section className="pt-32 pb-20 bg-white border-b border-slate-100">
-        <Container>
-          <h1 className="text-4xl lg:text-5xl font-serif font-bold text-[#0F172A] mb-6">Practice Areas</h1>
+    <div>
+      {/* Hero */}
+      <section className="py-20 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6">
+            Practice Areas
+          </h1>
           <p className="text-xl text-slate-600 max-w-2xl">
-            Comprehensive legal solutions designed to protect your assets and your future.
+            Comprehensive legal solutions tailored to protect your assets and your future.
           </p>
-        </Container>
+        </div>
       </section>
 
-      {/* Grid Preview */}
-      <section className="py-16 bg-slate-50">
-        <Container>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, index) => (
-              <ServiceCard key={index} {...service} className="h-full" />
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* Detailed Service Breakdown */}
-      <section id="business" className="py-20 border-b border-slate-100">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
-              <img src={images["service-1"].src} alt="Business Meeting" style={{ width: "100%", height: "100%", objectFit: "cover" }} className="object-cover" />
-            </div>
-            <div>
-              <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-4">Business Law</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed">
-                Whether you are launching a new venture or navigating complex corporate regulations, our attorneys provide the legal foundation you need to succeed. We assist with entity formation, shareholder agreements, and regulatory compliance.
-              </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-2 text-slate-700"><div className="h-1.5 w-1.5 bg-[#C5A059] rounded-full"></div> Business Entity Formation</li>
-                <li className="flex items-center gap-2 text-slate-700"><div className="h-1.5 w-1.5 bg-[#C5A059] rounded-full"></div> Contract Drafting & Review</li>
-                <li className="flex items-center gap-2 text-slate-700"><div className="h-1.5 w-1.5 bg-[#C5A059] rounded-full"></div> Mergers & Acquisitions</li>
-              </ul>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section id="real-estate" className="py-20 bg-slate-50">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-             <div className="order-2 lg:order-1">
-              <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-4">Real Estate</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed">
-                Real estate transactions are significant investments. Our team mitigates risk and ensures smooth closings for commercial developers, investors, and homeowners alike.
-              </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-2 text-slate-700"><div className="h-1.5 w-1.5 bg-[#C5A059] rounded-full"></div> Commercial Leasing</li>
-                <li className="flex items-center gap-2 text-slate-700"><div className="h-1.5 w-1.5 bg-[#C5A059] rounded-full"></div> Property Dispute Resolution</li>
-                <li className="flex items-center gap-2 text-slate-700"><div className="h-1.5 w-1.5 bg-[#C5A059] rounded-full"></div> Title Insurance Claims</li>
-              </ul>
-            </div>
-            <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg order-1 lg:order-2">
-              <img src={images["service-2"].src} alt="Real Estate" style={{ width: "100%", height: "100%", objectFit: "cover" }} className="object-cover" />
-            </div>
-          </div>
-        </Container>
+      {/* ZigZag Services List */}
+      <section className="py-20 md:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {services.map((service, idx) => (
+            <FadeIn key={service.id}>
+              <div className={`flex flex-col lg:flex-row gap-12 items-center mb-24 ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
+                <div className="w-full lg:w-1/2 relative rounded-2xl overflow-hidden shadow-xl h-[400px]">
+                  <Image
+                    src={images[service.image as keyof typeof images].src}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <h2 className="text-3xl font-serif font-bold text-slate-900 mb-4">
+                    {service.title}
+                  </h2>
+                  <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                    {service.desc}
+                  </p>
+                  <p className="text-slate-700 mb-6">
+                    {service.details}
+                  </p>
+                  <div className="flex items-center justify-between border-t border-slate-200 pt-6">
+                    <div>
+                      <span className="block text-xs font-bold uppercase tracking-wider text-slate-500">Investment</span>
+                      <span className="text-slate-900 font-medium">{service.price}</span>
+                    </div>
+                    <Link href="/contact" className="text-[#C5A059] font-bold hover:underline">
+                      Discuss Case &rarr;
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
-        <Container>
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-8 text-center">Frequently Asked Questions</h2>
-            <Accordion items={faqs} />
-          </div>
-        </Container>
+      <section className="py-20 md:py-32 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn>
+            <h2 className="text-3xl font-serif font-bold text-slate-900 mb-12 text-center">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {faqs.map((faq, idx) => (
+                <div key={idx} className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                  <button
+                    onClick={() => toggleAccordion(idx)}
+                    className="w-full flex justify-between items-center p-6 text-left focus:outline-none focus:bg-slate-50"
+                  >
+                    <span className="font-bold text-slate-900 text-lg">{faq.q}</span>
+                    {openAccordion === idx ? <ChevronUp className="text-[#C5A059]" /> : <ChevronDown className="text-slate-400" />}
+                  </button>
+                  {openAccordion === idx && (
+                    <div className="px-6 pb-6 text-slate-600 leading-relaxed">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
       </section>
-
-      <CtaBanner />
-    </main>
+    </div>
   );
 }

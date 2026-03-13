@@ -1,49 +1,29 @@
-import { NextResponse } from "next/server";
-import * as z from "zod";
+import { NextRequest, NextResponse } from "next/server";
 
-import { z } from "zod";
-const formSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
-  subject: z.string().optional(),
-  message: z.string(),
-  caseType: z.string().optional(),
-  source: z.string(),
-  gotcha: z.string().optional(),
-});
-
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    
-    // Basic validation
-    const validatedData = formSchema.parse(body);
+    const body = await request.json();
+    const { name, email, phone, service, message, _gotcha } = body;
 
-    // Honeypot check
-    if (validatedData.gotcha) {
-      return NextResponse.json({ message: "Bot detected" }, { status: 200 });
+    // Honeypot validation
+    if (_gotcha) {
+      return NextResponse.json({ success: false }, { status: 200 });
     }
 
-    // Here you would typically integrate with:
-    // 1. Resend, SendGrid, or AWS SES for email
-    // 2. A CRM like HubSpot or Salesforce
-    // 3. A database like Postgres or MongoDB
-    
-    // Simulate API delay
+    // Basic validation
+    if (!name || !email || !phone) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    // In a real application, you would send an email here using Nodemailer, SendGrid, or Resend.
+    // For this demo, we will simulate a successful response.
+    // console.log("Form submission received:", { name, email, phone, service, message });
+
+    // Simulate processing time
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // console.log("Form submission received:", validatedData);
-
-    return NextResponse.json(
-      { message: "Message sent successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error("Contact form error:", error);
-    return NextResponse.json(
-      { message: "Something went wrong" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

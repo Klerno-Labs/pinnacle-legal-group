@@ -4,38 +4,12 @@
 
 @layer base {
   :root {
-    --background: 248 250 252; /* Slate-50 */
-    --foreground: 51 65 85; /* Slate-600 */
-    --card: 255 255 255;
-    --card-foreground: 15 23 42; /* Slate-900 */
-    --popover: 255 255 255;
-    --popover-foreground: 15 23 42;
-    --primary: 15 23 42; /* Slate-900 (Navy) */
-    --primary-foreground: 255 255 255;
-    --secondary: 30 41 59; /* Slate-800 */
-    --secondary-foreground: 255 255 255;
-    --muted: 241 245 249; /* Slate-100 */
-    --muted-foreground: 100 116 139; /* Slate-500 */
-    --accent: 197 160 89; /* Gold #C5A059 */
-    --accent-foreground: 255 255 255;
-    --destructive: 239 68 68;
-    --destructive-foreground: 255 255 255;
-    --border: 226 232 240; /* Slate-200 */
-    --input: 226 232 240;
-    --ring: 197 160 89; /* Gold ring */
-    --radius: 0.5rem;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-  }
   body {
-    @apply bg-slate-50 text-slate-600 font-sans antialiased;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif text-slate-900 font-semibold;
+    @apply bg-background text-foreground;
   }
 }
 
@@ -43,8 +17,4 @@
   .text-balance {
     text-wrap: balance;
   }
-}
-
-html {
-  scroll-behavior: smooth;
 }
