@@ -1,93 +1,75 @@
+import { metadata } from "@/app/layout"; // Import base metadata if needed
 import { HeroSplit } from "@/components/sections/hero-split";
 import { TrustBar } from "@/components/sections/trust-bar";
 import { ServiceCard } from "@/components/sections/service-card";
-import { StatCounter } from "@/components/sections/stat-counter";
-import { Testimonials } from "@/components/sections/testimonials";
 import { CtaBanner } from "@/components/sections/cta-banner";
+import { Testimonials } from "@/components/sections/testimonials";
 import { Container } from "@/components/ui/container";
-import { Scale, Building2, FileText, Users } from "lucide-react";
+import { motion } from "framer-motion";
+import { Scale, HomeUser, FileText, ArrowRight } from "lucide-react";
+
+export { metadata }; // Exports from layout
 
 export default function Home() {
+  const services = [
+    {
+      title: "Business Law",
+      description: "Comprehensive legal support for business formation, contract negotiation, and corporate governance.",
+      icon: <Scale className="h-8 w-8" />,
+      link: "/services#business"
+    },
+    {
+      title: "Real Estate",
+      description: "Expert guidance through commercial transactions, property disputes, and residential closings.",
+      icon: <HomeUser className="h-8 w-8" />,
+      link: "/services#real-estate"
+    },
+    {
+      title: "Personal Matters",
+      description: "Dedicated counsel for estate planning, probate, and family law matters with compassion.",
+      icon: <FileText className="h-8 w-8" />,
+      link: "/services#personal"
+    }
+  ];
+
   return (
-    <>
+    <main className="w-full">
       <HeroSplit />
-      
       <TrustBar />
-
+      
       {/* Services Preview */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-20 lg:py-32 bg-slate-50">
         <Container>
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl lg:text-4xl font-serif font-bold text-primary mb-4">Our Practice Areas</h2>
-            <p className="text-lg text-muted-foreground">
-              We provide comprehensive legal solutions tailored to protect your business and personal interests.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16 max-w-3xl mx-auto"
+          >
+            <h2 className="text-3xl lg:text-4xl font-serif font-bold text-[#0F172A] mb-4">
+              Our Practice Areas
+            </h2>
+            <p className="text-slate-600 text-lg">
+              We provide strategic legal solutions tailored to your unique challenges.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard 
-              title="Business Law" 
-              description="Entity formation, contract disputes, M&A, and compliance strategies for growing businesses."
-              icon={Building2}
-              href="/services#business"
-            />
-            <ServiceCard 
-              title="Real Estate" 
-              description="Commercial transactions, leasing negotiations, title issues, and property development."
-              icon={Scale}
-              href="/services#real-estate"
-            />
-            <ServiceCard 
-              title="Civil Litigation" 
-              description="Aggressive representation in breach of contract, partnership disputes, and corporate conflicts."
-              icon={FileText}
-              href="/services#litigation"
-            />
+          <div className="grid md:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <ServiceCard key={index} {...service} />
+            ))}
           </div>
-        </Container>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-24 bg-white">
-        <Container>
-          <div className="flex flex-col lg:flex-row gap-16 items-center">
-            <div className="lg:w-1/2">
-              <h2 className="text-3xl lg:text-4xl font-serif font-bold text-primary mb-6">
-                Why Houston Trusts Pinnacle Legal
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                We combine deep legal expertise with a practical, business-minded approach. We don't just advise you on the law; we help you achieve your strategic goals while minimizing risk.
-              </p>
-              <ul className="space-y-4">
-                {[
-                  "Client-focused strategy with transparent communication",
-                  "Decades of combined experience in Texas courts",
-                  "Proven track record of favorable outcomes",
-                  "Personal attention from senior partners"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-accent/20 text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span className="text-slate-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="lg:w-1/2 grid grid-cols-2 gap-8">
-              <StatCounter value={50} suffix="+" label="Years Experience" />
-              <StatCounter value={500} suffix="+" label="Cases Won" />
-              <StatCounter value={100} suffix="%" label="Client Dedication" />
-              <StatCounter value={20} suffix="+" label="Attorneys" />
-            </div>
+          
+          <div className="text-center mt-12">
+             <a href="/services" className="inline-flex items-center font-bold text-[#0F172A] hover:text-[#C5A059] transition-colors">
+               View All Services <ArrowRight className="ml-2 h-5 w-5" />
+             </a>
           </div>
         </Container>
       </section>
 
       <Testimonials />
       <CtaBanner />
-    </>
+    </main>
   );
 }

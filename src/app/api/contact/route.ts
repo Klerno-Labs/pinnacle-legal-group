@@ -1,35 +1,48 @@
 import { NextResponse } from "next/server";
 import * as z from "zod";
 
-const contactSchema = z.object({
-  name: z.string().min(2),
+const formSchema = z.object({
+  name: z.string(),
   email: z.string().email(),
-  phone: z.string().min(10),
-  message: z.string().min(10),
+  phone: z.string(),
+  subject: z.string().optional(),
+  message: z.string(),
+  caseType: z.string().optional(),
+  source: z.string(),
+  gotcha: z.string().optional(),
 });
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     
-    // Validate input
-    const validatedData = contactSchema.parse(body);
+    // Basic validation
+    const validatedData = formSchema.parse(body);
 
-    // In a real application, you would send an email here using a service like Resend, SendGrid, or Nodemailer.
-    // Example:
-    // await sendEmail({
-    //   to: "info@pinnaclelegalgroup.com",
-    //   subject: `New Contact Form Submission from ${validatedData.name}`,
-    //   body: validatedData.message,
-    // });
-
-    console.log("Form submission received:", validatedData);
-
-    return NextResponse.json({ success: true, message: "Message sent successfully" }, { status: 200 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ success: false, message: "Invalid data" }, { status: 400 });
+    // Honeypot check
+    if (validatedData.gotcha) {
+      return NextResponse.json({ message: "Bot detected" }, { status: 200 });
     }
-    return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+
+    // Here you would typically integrate with:
+    // 1. Resend, SendGrid, or AWS SES for email
+    // 2. A CRM like HubSpot or Salesforce
+    // 3. A database like Postgres or MongoDB
+    
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // console.log("Form submission received:", validatedData);
+
+    return NextResponse.json(
+      { message: "Message sent successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Contact form error:", error);
+    return NextResponse.json(
+      { message: "Something went wrong" },
+      { status: 500 }
+    );
   }
 }

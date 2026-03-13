@@ -1,23 +1,19 @@
+import type { Metadata } from "next";
+
 export const siteConfig = {
   name: "Pinnacle Legal Group",
-  title: "Pinnacle Legal Group | Trusted Counsel for Business & Real Estate",
-  description: "Experienced law firm providing trusted legal counsel in business, real estate, and personal matters. Based in Houston, TX.",
-  url: "https://example.com",
+  description: "Experienced law firm providing trusted legal counsel in business, real estate, and personal matters.",
+  url: "https://pinnaclelegalgroup.com",
   links: {
-    twitter: "https://twitter.com",
-    instagram: "https://instagram.com",
-    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com/pinnaclelegal",
+    linkedin: "https://linkedin.com/company/pinnaclelegal",
   },
   contact: {
-    address: "4521 Westheimer Rd, Suite 200, Houston, TX 77027",
-    phone: "(713) 555-0198",
+    phone: "(713) 555-0199",
     email: "info@pinnaclelegalgroup.com",
-    hours: "Mon-Fri: 8am-6pm, Sat: 9am-2pm, Sun: Closed",
-  },
-  nav: [
-    { title: "Home", href: "/" },
-    { title: "About", href: "/about" },
-    { title: "Services", href: "/services" },
-    { title: "Contact", href: "/contact" },
-  ],
+    address: "1001 Main St, Suite 1500, Houston, TX 77002",
+    hours: "Mon-Fri: 8am-6pm, Sat: 9am-2pm, Sun: Closed"
+  }
 };
+
+export type SiteConfig = typeof siteConfig;

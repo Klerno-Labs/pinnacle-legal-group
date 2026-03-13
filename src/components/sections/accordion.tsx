@@ -1,42 +1,67 @@
 "use client";
 
-import * as React from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Container } from "@/components/ui/container";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export function AccordionSection() {
+interface AccordionItemProps {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+function AccordionItem({ question, answer, isOpen, onToggle }: AccordionItemProps) {
   return (
-    <section className="py-24 bg-white">
-      <Container>
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl lg:text-4xl font-serif font-bold text-primary mb-8 text-center">Frequently Asked Questions</h2>
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-left text-lg font-bold text-primary">What types of cases do you handle?</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                We specialize in business law, commercial real estate transactions, civil litigation, and estate planning. If your legal issue falls within these categories, we have the expertise to help.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger className="text-left text-lg font-bold text-primary">How much does a consultation cost?</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                We offer a free initial consultation for potential new clients to discuss your case and determine if we are the right fit. Subsequent fees depend on the complexity of the matter and our engagement agreement.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="text-left text-lg font-bold text-primary">How long will my case take?</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                The timeline varies significantly based on the nature of the legal matter. Real estate closings might take 30-45 days, while complex litigation could take months or years. We provide realistic timelines during your consultation.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      </Container>
-    </section>
+    <div className="border-b border-slate-200 last:border-0">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between py-6 text-left focus:outline-none group"
+      >
+        <span className={cn("text-lg font-serif font-medium transition-colors", isOpen ? "text-[#C5A059]" : "text-slate-900 group-hover:text-[#C5A059]")}>
+          {question}
+        </span>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className="h-5 w-5 text-slate-400" />
+        </motion.div>
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="pb-6 text-slate-600 leading-relaxed">
+              {answer}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export function Accordion({ items }: { items: Array<{ question: string, answer: string }> }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      {items.map((item, index) => (
+        <AccordionItem
+          key={index}
+          question={item.question}
+          answer={item.answer}
+          isOpen={openIndex === index}
+          onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+        />
+      ))}
+    </div>
   );
 }

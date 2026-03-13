@@ -5,47 +5,46 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/config/site";
 
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.title,
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  metadataBase: new URL("https://pinnacle-legal-group.com"),
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    title: siteConfig.name,
+    description: siteConfig.description,
     url: siteConfig.url,
-    title: siteConfig.title,
+    siteName: siteConfig.name,
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
     description: siteConfig.description,
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main className="flex-grow">
+          {children}
+        </main>
         <Footer />
         
-        {/* Structured Data for Local Business */}
+        {/* JSON-LD for LocalBusiness */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -53,40 +52,30 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "LegalService",
               name: siteConfig.name,
-              image: "https://images.unsplash.com/photo-1497366216548-37526070297c",
+              image: "https://pinnaclelegalgroup.com/og.jpg",
               "@id": siteConfig.url,
               url: siteConfig.url,
               telephone: siteConfig.contact.phone,
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "4521 Westheimer Rd, Suite 200",
+                streetAddress: "1001 Main St, Suite 1500",
                 addressLocality: "Houston",
                 addressRegion: "TX",
-                postalCode: "77027",
+                postalCode: "77002",
                 addressCountry: "US",
               },
               geo: {
                 "@type": "GeoCoordinates",
-                latitude: 29.7373,
-                longitude: -95.4617,
+                latitude: 29.7589,
+                longitude: -95.3677,
               },
               openingHoursSpecification: {
                 "@type": "OpeningHoursSpecification",
-                dayOfWeek: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                ],
+                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 opens: "08:00",
                 closes: "18:00",
               },
-              sameAs: [
-                siteConfig.links.linkedin,
-                siteConfig.links.twitter,
-              ],
+              sameAs: [siteConfig.links.linkedin, siteConfig.links.twitter],
             }),
           }}
         />

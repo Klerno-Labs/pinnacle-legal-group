@@ -1,11 +1,11 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
-      userAgent: '*',
-      allow: '/',
+      userAgent: "*",
+      allow: "/",
     },
-    sitemap: 'https://pinnacle-legal-group.com/sitemap.xml',
+    sitemap: "https://pinnaclelegalgroup.com/sitemap.xml",
   };
 }
