@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pegrio Motion Lab | 2D Animation Showcase</title>
+    <style>
+        /* 
+         * GLOBAL VARIABLES & RESET
+         * High-contrast dark mode aesthetic for maximum visual impact.
+         */
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #121212;
+            --primary: #6366f1; /* Indigo */
+            --accent: #d946ef;  /* Fuchsia */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --glass: rgba(255, 255, 255, 0.05);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 
+         * UTILITIES 
+         */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 99px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-out);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(217, 70, 239, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: var(--glass);
+        }
+
+        /* 
+         * ANIMATIONS 
+         */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* 
+         * COMPONENTS 
+         */
+        
+        /* Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: background 0.3s ease, padding 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            animation: fadeIn 1s var(--ease-out);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 span {
+            display: block;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Interactive Lab Section */
+        .lab-section {
+            padding: 6rem 0;
+            background: #0b0b0b;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+        }
+
+        .lab-interface {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
+        }
+
+        .canvas-container {
+            background: radial-gradient(circle at center, #1e1e24 0%, #050505 100%);
+            height: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .controls {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            padding: 6rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid transparent;
+            transition: all 0.4s var(--ease-out);
+            cursor: pointer;
+            group: card;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-out);
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(99, 102, 241, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transform: scale(0.8);
+            transition: transform 0.3s var(--ease-out);
+        }
+
+        .card:hover .play-icon {
+            transform: scale(1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 2000;
+        }
+
+        .toast {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--text-main);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: fadeIn 0.3s ease;
+            min-width: 300px;
+        }
+
+        .toast.success { border-color: #10b981; }
+        .toast.info { border-color: #6366f1; }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .lab-interface {
+                grid-template-columns: 1fr;
+            }
+            .canvas-container {
+                height: 350px;
+            }
+            .nav-links {
+                display: none; /* Simplification for single file */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo">PEGRIO<span style="color:var(--primary);">.LAB</span></div>
+                <ul class="nav-links">
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#lab">Interactive Lab</a></li>
+                    <li><a href="#about">Studio</a></li>
+                </ul>
+                <button class="btn btn-primary" onclick="showToast('Let\'s start a project!', 'success')">Get in Touch</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="container hero-content">
+            <span class="badge">Motion Design Studio</span>
+            <h1>
+                <span>Breathing Life</span>
+                <span>Into Pixels.</span>
+            </h1>
+            <p>We are a collective of designers and engineers crafting immersive 2D web experiences. Scroll down to play.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="#lab" class="btn btn-primary">Try The Demo</a>
+                <a href="#work" class="btn btn-outline">View Portfolio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Lab Section -->
+    <section id="lab" class="lab-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Motion Lab</h2>
+                <p>Interact with our procedural animation engine. No video files, just pure math & code.</p>
+            </div>
+
+            <div class="lab-interface">
+                <div class="canvas-container">
+                    <canvas id="lab-canvas" width="800" height="500"></canvas>
+                </div>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Playback Status</label>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="play-btn" class="btn btn-primary" style="flex: 1;">Pause</button>
+                            <button id="reset-btn" class="btn btn-outline" style="flex: 1;">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Animation Speed: <span id="speed-val">1.0x</span></label>
+                        <input type="range" id="speed-slider" min="0.1" max="3.0" step="0.1" value="1.0">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Amplitude (Height)</label>
+                        <input type="range" id="amp-slider" min="20" max="150" value="80">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Harmonic Complexity</label>
+                        <input type="range" id="complexity-slider" min="1" max="5" step="1" value="3">
+                    </div>
+                    
+                    <div class="control-group" style="margin-top: auto;">
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">
+                            *This animation runs at 60fps using requestAnimationFrame and trigonometric functions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="work" class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>Selected Works</h2>
+                <p>A showcase of our recent 2D animation projects.</p>
+            </div>
+            
+            <div class="grid">
+                <!-- Project 1 -->
+                <article class="card" onclick="showToast('Loading Project: Neon Drift...', 'info')">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/seed/neon1/400/300" alt="Neon Drift Project">
+                        <div class="card-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Neon Drift</h3>
+                        <p>Cyberpunk kinetic typography sequence.</p>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="card" onclick="showToast('Loading Project: Fluid Life...', 'info')">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/seed/fluid2/400/300" alt="Fluid Life Project">
+                        <div class="card-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Fluid Life</h3>
+                        <p>Organic motion graphics for biotech startup.</p>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="card" onclick="showToast('Loading Project: Geometric Soul...', 'info')">
+                    <div class="card-image">
+                        <img src="https://picsum.photos/seed/geo3/400/300" alt="Geometric Soul Project">
+                        <div class="card-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Geometric Soul</h3>
+                        <p>Abstract 2D shape-shifting narrative.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 style="color: var(--text-main); margin-bottom: 1rem;">PEGRIO.LAB</h3>
+            <p>&copy; 2023 Pegrio Animation Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        /**
+         * 2D Animation Showcase Logic
+         * Implements particle systems and procedural motion without external libraries.
+         */
+
+        /* --- UTILITIES --- */
+        const $ = (selector) => document.querySelector(selector);
+        
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span style="font-weight:bold;">${type === 'success' ? '✓' : 'ℹ'}</span>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            // Auto remove
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        /* --- HERO BACKGROUND ANIMATION --- */
+        const heroCanvas = document.getElementById('hero-canvas');
+        const heroCtx = heroCanvas.getContext('2d');
+        let heroParticles = [];
+        let heroW, heroH;
+
+        function resizeHero() {
+            heroW = heroCanvas.width = window.innerWidth;
+            heroH = heroCanvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * heroW;
+                this.y = Math.random() * heroH;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.color = Math.random() > 0.5 ? 'rgba(99, 102, 241, ' : 'rgba(217, 70, 239, '; 
+                this.alpha = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0) this.x = heroW;
+                if(this.x > heroW) this.x = 0;
+                if(this.y < 0) this.y = heroH;
+                if(this.y > heroH) this.y = 0;
+            }
+            draw() {
+                heroCtx.beginPath();
+                heroCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                heroCtx.fillStyle = this.color + this.alpha + ')';
+                heroCtx.fill();
+            }
+        }
+
+        function initHero() {
+            resizeHero();
+            heroParticles = [];
+            for(let i = 0; i < 100; i++) heroParticles.push(new Particle());
+        }
+
+        function animateHero() {
+            heroCtx.clearRect(0, 0, heroW, heroH);
+            heroParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            // Draw connecting lines if close
+            for(let i=0; i<heroParticles.length; i++) {
+                for(let j=i+1; j<heroParticles.length; j++) {
+                    const dx = heroParticles[i].x - heroParticles[j].x;
+                    const dy = heroParticles[i].y - heroParticles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if(dist < 100) {
+                        heroCtx.beginPath();
+                        heroCtx.strokeStyle = `rgba(148, 163, 184, ${0.1 - dist/1000})`;
+                        heroCtx.lineWidth = 1;
+                        heroCtx.moveTo(heroParticles[i].x, heroParticles[i].y);
+                        heroCtx.lineTo(heroParticles[j].x, heroParticles[j].y);
+                        heroCtx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateHero);
+        }
+
+        /* --- INTERACTIVE LAB ANIMATION --- */
+        const labCanvas = document.getElementById('lab-canvas');
+        const labCtx = labCanvas.getContext('2d');
+        const playBtn = document.getElementById('play-btn');
+        const speedSlider = document.getElementById('speed-slider');
+        const speedVal = document.getElementById('speed-val');
+        const ampSlider = document.getElementById('amp-slider');
+        const compSlider = document.getElementById('complexity-slider');
+        const resetBtn = document.getElementById('reset-btn');
+
+        let labState = {
+            isPlaying: true,
+            time: 0,
+            speed: 1.0,
+            amplitude: 80,
+            complexity: 3
+        };
+
+        function drawLab() {
+            if (!labState.isPlaying) return;
+
+            const w = labCanvas.width;
+            const h = labCanvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            // Fade effect for trails
+            labCtx.fillStyle = 'rgba(30, 30, 36, 0.2)';
+            labCtx.fillRect(0, 0, w, h);
+
+            // Draw central anchor
+            labCtx.beginPath();
+            labCtx.arc(cx, cy, 5, 0, Math.PI * 2);
+            labCtx.fillStyle = '#fff';
+            labCtx.fill();
+
+            // Draw harmonic waves
+            const layers = labState.complexity + 2;
+            
+            for (let j = 0; j < layers; j++) {
+                labCtx.beginPath();
+                const offset = (Math.PI / layers) * j;
+                const hue = (labState.time * 20 + j * 50) % 360;
+                
+                labCtx.strokeStyle = `hsl(${hue}, 70%, 60%)`;
+                labCtx.lineWidth = 3;
+
+                for (let i = 0; i < 360; i+=2) {
+                    const angle = (i * Math.PI) / 180;
+                    // The math: Sine wave superposition based on time
+                    const r = 50 + labState.amplitude * Math.sin(angle * (j + 1) + labState.time + offset);
+                    
+                    const x = cx + r * Math.cos(angle);
+                    const y = cy + r * Math.sin(angle);
+                    
+                    if (i === 0) labCtx.moveTo(x, y);
+                    else labCtx.lineTo(x, y);
+                }
+                labCtx.closePath();
+                labCtx.stroke();
+            }
+
+            // Draw Orbiting Particle
+            const orbitR = 150 + 30 * Math.sin(labState.time);
+            const ox = cx + orbitR * Math.cos(labState.time * 0.5);
+            const oy = cy + orbitR * Math.sin(labState.time * 0.5);
+            
+            labCtx.beginPath();
+            labCtx.arc(ox, oy, 10, 0, Math.PI * 2);
+            labCtx.fillStyle = '#fff';
+            labCtx.shadowBlur = 15;
+            labCtx.shadowColor = '#6366f1';
+            labCtx.fill();
+            labCtx.shadowBlur = 0;
+
+            labState.time += 0.02 * labState.speed;
+            requestAnimationFrame(drawLab);
+        }
+
+        /* --- EVENT LISTENERS --- */
+        
+        // Lab Controls
+        playBtn.addEventListener('click', () => {
+            labState.isPlaying = !labState.isPlaying;
+            playBtn.textContent = labState.isPlaying ? 'Pause' : 'Play';
+            if(labState.isPlaying) drawLab();
+        });
+
+        speedSlider.addEventListener('input', (e) => {
+            labState.speed = parseFloat(e.target.value);
+            speedVal.textContent = labState.speed.toFixed(1) + 'x';
+        });
+
+        ampSlider.addEventListener('input', (e) => {
+            labState.amplitude = parseInt(e.target.value);
+        });
+
+        compSlider.addEventListener('input', (e) => {
+            labState.complexity = parseInt(e.target.value);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            labState.time = 0;
+            labState.speed = 1.0;
+            labState.amplitude = 80;
+            labState.complexity = 3;
+            
+            // Reset UI inputs
+            speedSlider.value = 1.0;
+            speedVal.textContent = '1.0x';
+            ampSlider.value = 80;
+            compSlider.value = 3;
+            
+            // Clear canvas
+            labCtx.clearRect(0, 0, labCanvas.width, labCanvas.height);
+            showToast('Lab settings reset', 'info');
+            if(!labState.isPlaying) {
+                labState.isPlaying = true;
+                playBtn.textContent = 'Pause';
+                drawLab();
+            }
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if(window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // Initialization
+        window.addEventListener('resize', resizeHero);
+        initHero();
+        animateHero();
+        drawLab(); // Start the lab immediately
+
+    </script>
+</body>
+</html>
