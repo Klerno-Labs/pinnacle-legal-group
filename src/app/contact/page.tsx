@@ -1,3 +1,5 @@
+"use client";
+
 import { Metadata } from "next";
 import { ContactForm } from "@/components/forms/contact-form";
 import { Container } from "@/components/ui/container";
