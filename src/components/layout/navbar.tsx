@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { MobileMenu } from "./mobile-menu";
 import { Button } from "@/components/ui/button";
 
-import { useState, useEffect } from "react";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
