@@ -1,5 +1,3 @@
-"use client";
-
 import { Metadata } from "next";
 import { HeroOverlay } from "@/components/sections/hero-overlay";
 import { Container } from "@/components/ui/container";
