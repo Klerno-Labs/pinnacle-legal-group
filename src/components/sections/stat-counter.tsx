@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSpring, animated } from "@react-spring/web";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState} from "react";
 
 interface StatCounterProps {
   value: number;

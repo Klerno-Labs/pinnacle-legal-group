@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import * as z from "zod";
 
+import { z } from "zod";
 const formSchema = z.object({
   name: z.string(),
   email: z.string().email(),
