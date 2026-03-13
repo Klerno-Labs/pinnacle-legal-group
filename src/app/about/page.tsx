@@ -28,13 +28,13 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-6">
-                Our Firm's Story
+                Our Firm&apos;s Story
               </h2>
               <p className="text-slate-600 mb-4 leading-relaxed">
                 Founded with a vision to provide accessible, high-quality legal representation, Pinnacle Legal Group has grown into a cornerstone of the Houston legal community. We understand that behind every case is a person, a family, or a business whose future is at stake.
               </p>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                Our approach combines the aggressive advocacy of a large firm with the personalized attention of a boutique practice. We don't just process cases; we build relationships and fight tirelessly for the outcomes our clients deserve.
+                Our approach combines the aggressive advocacy of a large firm with the personalized attention of a boutique practice. We don&apos;t just process cases; we build relationships and fight tirelessly for the outcomes our clients deserve.
               </p>
               
               <div className="space-y-4">

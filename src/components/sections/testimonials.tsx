@@ -36,7 +36,7 @@ export function Testimonials() {
             Client Testimonials
           </h2>
           <p className="text-slate-600">
-            Don't just take our word for it. Here is what our clients have to say about our legal services.
+            Don&apos;t just take our word for it. Here is what our clients have to say about our legal services.
           </p>
         </div>
 
