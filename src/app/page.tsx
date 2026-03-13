@@ -1,3 +1,5 @@
+"use client";
+
 import { metadata } from "@/app/layout"; // Import base metadata if needed
 import { HeroSplit } from "@/components/sections/hero-split";
 import { TrustBar } from "@/components/sections/trust-bar";
