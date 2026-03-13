@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { images } from "@/config/images";
 import { Container } from "@/components/ui/container";
@@ -10,12 +9,10 @@ export function HeroOverlay({ title, subtitle }: { title: string, subtitle?: str
   return (
     <section className="relative min-h-[400px] flex items-center justify-center pt-20">
       <div className="absolute inset-0 z-0">
-        <Image
+        <img
           src={images["hero-alt"].src}
-          alt={images["hero-alt"].alt}
-          fill
+          alt={images["hero-alt"].alt} style={{ width: "100%", height: "100%", objectFit: "cover" }}
           className="object-cover"
-          priority
         />
         <div className="absolute inset-0 bg-[#0F172A]/80" />
       </div>

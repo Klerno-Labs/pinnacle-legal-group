@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -46,12 +45,10 @@ export function HeroSplit() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl"
           >
-            <Image
+            <img
               src={images["hero"].src}
-              alt={images["hero"].alt}
-              fill
+              alt={images["hero"].alt} style={{ width: "100%", height: "100%", objectFit: "cover" }}
               className="object-cover"
-              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/60 to-transparent" />
             

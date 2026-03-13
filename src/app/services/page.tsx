@@ -4,7 +4,6 @@ import { ServiceCard } from "@/components/sections/service-card";
 import { Accordion } from "@/components/sections/accordion";
 import { CtaBanner } from "@/components/sections/cta-banner";
 import { Scale, HomeUser, FileText, Gavel, Briefcase, Building } from "lucide-react";
-import Image from "next/image";
 import { images } from "@/config/images";
 
 export const metadata: Metadata = {
@@ -83,7 +82,7 @@ export default function ServicesPage() {
         <Container>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
-              <Image src={images["service-1"].src} alt="Business Meeting" fill className="object-cover" />
+              <img src={images["service-1"].src} alt="Business Meeting" style={{ width: "100%", height: "100%", objectFit: "cover" }} className="object-cover" />
             </div>
             <div>
               <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-4">Business Law</h2>
@@ -115,7 +114,7 @@ export default function ServicesPage() {
               </ul>
             </div>
             <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg order-1 lg:order-2">
-              <Image src={images["service-2"].src} alt="Real Estate" fill className="object-cover" />
+              <img src={images["service-2"].src} alt="Real Estate" style={{ width: "100%", height: "100%", objectFit: "cover" }} className="object-cover" />
             </div>
           </div>
         </Container>

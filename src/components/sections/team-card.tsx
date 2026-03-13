@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Linkedin } from "lucide-react";
 import { images } from "@/config/images";
@@ -21,10 +20,9 @@ export function TeamCard({ name, title, imageKey, className }: TeamCardProps) {
       className={cn("bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group", className)}
     >
       <div className="relative h-80 overflow-hidden">
-        <Image
+        <img
           src={images[imageKey].src}
-          alt={name}
-          fill
+          alt={name} style={{ width: "100%", height: "100%", objectFit: "cover" }}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-colors duration-300" />
