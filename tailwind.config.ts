@@ -9,37 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#0F172A", // Slate/Navy
-        secondary: "#1E293B", // Dark Slate
+        primary: "#0F172A", // Slate 900
+        secondary: "#1E293B", // Slate 800
         accent: "#C5A059", // Metallic Gold
-        background: "#F8FAFC", // Off-white
-        surface: "#FFFFFF", // Pure White
-        text: "#334155", // Dark Blue-Grey
-        muted: "#94A3B8", // Grey
+        background: "#F8FAFC", // Slate 50
+        surface: "#FFFFFF",
+        text: "#334155", // Slate 700
+        muted: "#94A3B8", // Slate 400
       },
       fontFamily: {
-        serif: ["var(--font-playfair)", "serif"],
-        sans: ["var(--font-inter)", "sans-serif"],
+        sans: ["var(--font-inter)"],
+        serif: ["var(--font-playfair)"],
       },
-      spacing: {
-        "128": "32rem", // section-gap
-      },
-      borderRadius: {
-        "sm": "4px",
-        "md": "6px",
-        "lg": "8px",
-        "xl": "12px",
-        "2xl": "16px",
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
       boxShadow: {
-        "card": "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
-        "hover": "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)",
+        card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
+        hover: "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)",
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [],
 };
-
 export default config;

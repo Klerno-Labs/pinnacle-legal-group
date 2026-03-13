@@ -1,18 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone } from "lucide-react";
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Practice Areas", href: "/services" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
-];
+import { Button } from "./Button";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,140 +13,116 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Practice Areas", href: "/services" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ];
+
   return (
     <>
-      {/* Skip to content link for accessibility */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-slate-900 text-white px-4 py-2 rounded-md z-[100]"
-      >
-        Skip to main content
-      </a>
-
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
-            ? "bg-white/95 backdrop-blur-md shadow-sm py-3 text-slate-900"
-            : "bg-transparent text-white py-6"
+          isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-2" : "bg-transparent py-4 text-white"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center group">
-              <span className="font-serif text-2xl font-bold tracking-tight group-hover:text-[#C5A059] transition-colors">
-                Pinnacle Legal
-              </span>
-            </Link>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <Link href="/" className={cn("text-2xl font-serif font-bold tracking-tight", isScrolled ? "text-primary" : "text-white")}>
+            Pinnacle Legal
+          </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={cn(
-                    "text-sm font-medium uppercase tracking-wider relative py-1 transition-colors hover:text-[#C5A059]",
-                    pathname === link.href && "text-[#C5A059]",
-                    !isScrolled && pathname !== link.href && "text-slate-100 hover:text-white"
-                  )}
-                >
-                  {link.name}
-                  <span
-                    className={cn(
-                      "absolute bottom-0 left-0 w-0 h-0.5 bg-[#C5A059] transition-all duration-300",
-                      pathname === link.href && "w-full"
-                    )}
-                  />
-                </Link>
-              ))}
-            </div>
-
-            {/* CTA & Mobile Toggle */}
-            <div className="flex items-center gap-4">
-              <a
-                href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
-                className="hidden lg:flex items-center gap-2 text-sm font-bold hover:text-[#C5A059] transition-colors"
-              >
-                <Phone size={18} />
-                {siteConfig.contact.phone}
-              </a>
-              
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
               <Link
-                href="/contact"
-                className="hidden md:inline-flex items-center justify-center px-6 py-2.5 rounded-md bg-[#C5A059] text-white font-bold text-sm hover:bg-[#b08d4b] transition-colors shadow-md"
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors relative group",
+                  isScrolled ? "text-primary" : "text-white"
+                )}
               >
-                Get a Consultation
+                {link.label}
+                <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full" />
               </Link>
-
-              <button
-                type="button"
-                className="md:hidden p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-                onClick={() => setIsMobileMenuOpen(true)}
-                aria-label="Open menu"
-              >
-                <Menu className="w-6 h-6" />
-              </button>
-            </div>
+            ))}
           </nav>
+
+          <div className="hidden md:flex items-center gap-4">
+            <a href="tel:+17135550199" className={cn("flex items-center gap-2 text-sm font-semibold hover:text-accent transition-colors", isScrolled ? "text-primary" : "text-white")}>
+              <Phone size={18} />
+              (713) 555-0199
+            </a>
+            <Link href="/contact">
+              <Button variant="primary" className="!py-2 !px-6 text-sm">
+                Get Consultation
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Trigger */}
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden p-2 focus:outline-none"
+            aria-label="Open menu"
+          >
+            <Menu size={28} className={isScrolled ? "text-primary" : "text-white"} />
+          </button>
         </div>
       </header>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-slate-900 text-white flex flex-col">
-          <div className="flex items-center justify-between p-6 border-b border-slate-800">
-            <span className="font-serif text-2xl font-bold text-white">
-              Pinnacle Legal
-            </span>
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-              aria-label="Close menu"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          <nav className="flex-1 overflow-y-auto p-6">
-            <ul className="space-y-6">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-2xl font-serif block hover:text-[#C5A059] transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-12 pt-8 border-t border-slate-800">
-              <a
-                href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`}
-                className="flex items-center gap-3 text-xl font-bold text-[#C5A059] mb-6"
-              >
-                <Phone size={24} />
-                {siteConfig.contact.phone}
-              </a>
-              <Link
-                href="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-center py-4 bg-[#C5A059] rounded-md font-bold text-lg hover:bg-[#b08d4b] transition-colors"
-              >
-                Get a Consultation
-              </Link>
-            </div>
-          </nav>
+      <div
+        className={cn(
+          "fixed inset-0 z-[60] bg-primary transform transition-transform duration-300 ease-in-out md:hidden flex flex-col",
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        )}
+      >
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <span className="text-2xl font-serif font-bold text-white">Pinnacle Legal</span>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-2 text-white focus:outline-none"
+            aria-label="Close menu"
+          >
+            <X size={28} />
+          </button>
         </div>
-      )}
+        
+        <nav className="flex-1 flex flex-col items-center justify-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-2xl font-serif text-white hover:text-accent transition-colors"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="p-6 border-t border-white/10 text-center">
+          <Button variant="primary" className="w-full mb-4" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href="/contact">Get Consultation</Link>
+          </Button>
+          <a href="tel:+17135550199" className="text-accent font-bold text-lg block">
+            (713) 555-0199
+          </a>
+        </div>
+      </div>
     </>
   );
 }
