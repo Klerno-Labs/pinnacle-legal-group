@@ -1,41 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import siteConfig from "@/config/site";
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
-export const metadataBase = new URL("https://pinnaclelegalgroup.com");
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Pinnacle Legal Group | Justice You Deserve",
-  description: "Experienced law firm providing trusted legal counsel in business, real estate, and personal matters. Located in Houston, TX.",
-  keywords: ["Law Firm", "Legal Counsel", "Business Law", "Real Estate Law", "Houston Attorney", "Texas Lawyer"],
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
   openGraph: {
-    title: "Pinnacle Legal Group | Justice You Deserve",
-    description: "Experienced law firm providing trusted legal counsel in business, real estate, and personal matters.",
-    url: "https://pinnaclelegalgroup.com",
-    siteName: "Pinnacle Legal Group",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=1200&h=630&fit=crop",
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: "en_US",
+    title: siteConfig.name,
+    description: siteConfig.description,
     type: "website",
+    locale: "en_US",
   },
 };
 
@@ -45,12 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-background text-text`}>
+    <html lang="en">
+      <body className={`${inter.variable} ${playfair.variable} ${montserrat.variable} font-body bg-background text-text`}>
         <Navbar />
-        <main className="min-h-screen pt-20">
-          {children}
-        </main>
+        <main className="min-h-screen pt-20">{children}</main>
         <Footer />
       </body>
     </html>

@@ -3,26 +3,26 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, phone, type, message } = body;
+    const { name, email, phone, message, _gotcha } = body;
 
-    // Basic validation
-    if (!name || !email || !phone) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    // Honeypot check for spam prevention
+    if (_gotcha) {
+      return NextResponse.json({ message: "Spam detected" }, { status: 400 });
     }
 
-    // In a real implementation, you would:
-    // 1. Send an email using Resend, SendGrid, or Nodemailer
-    // 2. Save to a database (Supabase, MongoDB, etc.)
-    // 3. Log to CRM (HubSpot, Salesforce)
-    
-    console.log("Form Submission Received:", { name, email, phone, type, message });
+    // Basic validation
+    if (!name || !email || !message) {
+      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+    }
 
-    // Simulate processing delay
+    // In a real environment, you would send an email here using Nodemailer, SendGrid, or Resend
+    console.log("Form Submission Received:", { name, email, phone, message });
+
+    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    return NextResponse.json({ success: true, message: "Email sent successfully" }, { status: 200 });
+    return NextResponse.json({ message: "Message sent successfully" }, { status: 200 });
   } catch (error) {
-    console.error("Contact API Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

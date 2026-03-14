@@ -1,17 +1,21 @@
 export const siteConfig = {
   name: "Pinnacle Legal Group",
-  description: "Experienced law firm providing trusted legal counsel in business, real estate, and personal matters. Houston's top-rated attorneys.",
-  url: "https://pinnaclelegalgroup.com",
+  description: "Experienced law firm providing trusted legal counsel in business, real estate, and personal matters.",
+  url: "https://example.com",
   links: {
     twitter: "https://twitter.com",
+    instagram: "https://instagram.com",
     linkedin: "https://linkedin.com",
-    facebook: "https://facebook.com",
   },
   contact: {
-    address: "4521 Westheimer Rd, Suite 200, Houston, TX 77027",
-    phone: "(713) 555-0198",
-    email: "info@pinnaclelegalgroup.com",
-  }
-}
-
-export type SiteConfig = typeof siteConfig;
+    phone: "(713) 555-0199",
+    email: "info@pinnaclelegal.com",
+    address: "1200 Main St, Suite 500, Houston, TX 77002",
+  },
+  navItems: [
+    { title: "Home", href: "/" },
+    { title: "About", href: "/about" },
+    { title: "Practice Areas", href: "/services" },
+    { title: "Contact", href: "/contact" },
+  ],
+};

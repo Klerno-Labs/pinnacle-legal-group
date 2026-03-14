@@ -4,16 +4,12 @@
 
 @layer base {
   :root {
-    --background: 248 250 252;
-    --foreground: 51 65 85;
+    --background: 248 250 252; /* #F8FAFC */
+    --foreground: 71 85 105; /* #475569 */
   }
 
   body {
-    @apply bg-background text-foreground;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif text-primary;
+    @apply bg-background text-foreground antialiased;
   }
 }
 
@@ -21,19 +17,25 @@
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+    border: 3px solid #f1f5f9;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #F1F1F1;
-}
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
 }
