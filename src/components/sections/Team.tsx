@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 import { Linkedin, Mail } from "lucide-react";
-import Image from "next/image";
 import images from "@/config/images";
 
 const team = [
@@ -46,10 +45,9 @@ export function Team() {
             className="bg-white border border-slate-100 rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
           >
             <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-2 border-slate-100">
-              <Image 
+              <img 
                 src={images[member.image as keyof typeof images].src}
-                alt={member.name}
-                fill
+                alt={member.name} style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 className="object-cover"
               />
             </div>

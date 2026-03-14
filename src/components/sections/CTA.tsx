@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import Image from "next/image";
 import images from "@/config/images";
 
 export function CTA() {
@@ -10,10 +9,9 @@ export function CTA() {
     <section className="relative py-24 bg-primary overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
-        <Image
+        <img
           src={images["cta"].src}
-          alt={images["cta"].alt}
-          fill
+          alt={images["cta"].alt} style={{ width: "100%", height: "100%", objectFit: "cover" }}
           className="object-cover opacity-20"
         />
         <div className="absolute inset-0 bg-primary/90" />

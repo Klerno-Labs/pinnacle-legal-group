@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import images from "@/config/images";
 import { Button } from "@/components/ui/Button";
@@ -63,12 +62,10 @@ export function Hero() {
           className="relative hidden lg:block h-[600px] w-full"
         >
           <div className="absolute inset-0 bg-slate-100 rounded-2xl overflow-hidden shadow-2xl">
-            <Image
+            <img
               src={images["hero"].src}
-              alt={images["hero"].alt}
-              fill
+              alt={images["hero"].alt} style={{ width: "100%", height: "100%", objectFit: "cover" }}
               className="object-cover"
-              priority
             />
             {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />

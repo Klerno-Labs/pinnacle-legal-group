@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 import { Quote, Star } from "lucide-react";
-import Image from "next/image";
 import images from "@/config/images";
 
 const testimonials = [
@@ -59,10 +58,9 @@ export function Testimonials() {
             
             <div className="flex items-center gap-4">
               <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                <Image 
+                <img 
                   src={images[testimonial.image as keyof typeof images].src} 
-                  alt={testimonial.name}
-                  fill
+                  alt={testimonial.name} style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   className="object-cover"
                 />
               </div>

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 import { ArrowRight, Scale, Gavel, FileText } from "lucide-react";
-import Image from "next/image";
 import images from "@/config/images";
 import { cn } from "@/lib/utils";
 
@@ -68,7 +67,7 @@ export function ValueProp() {
           className="relative"
         >
           <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-             <Image
+             <img
               src={images["about"].src}
               alt={images["about"].alt}
               width={images["about"].width}
