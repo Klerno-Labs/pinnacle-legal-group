@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/Label";
 import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { z } from "zod";
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   email: z.string().email("Invalid email address."),
