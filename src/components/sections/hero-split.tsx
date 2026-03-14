@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/container";
 import { LeadGenForm } from "@/components/forms/lead-gen-form";
 import { images } from "@/config/images";

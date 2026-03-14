@@ -1,6 +1,6 @@
 import { ImageSlot, images } from "@/config/images";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
 interface ServiceZigZagProps {

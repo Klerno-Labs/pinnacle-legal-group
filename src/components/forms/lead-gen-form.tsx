@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useForm, useState} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { Loader2 } from "lucide-react";
 
 import { z } from "zod";
