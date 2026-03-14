@@ -14,7 +14,7 @@ export function Intro() {
               Founded in Houston, Pinnacle Legal Group was built on a simple premise: provide high-level legal counsel with the personal touch of a boutique firm. We believe that every client deserves access to aggressive, intelligent representation regardless of the size of their legal matter.
             </p>
             <p>
-              Our team brings together diverse backgrounds in corporate law, litigation, and real estate to offer a holistic approach to your problems. We are not just your lawyers; we are your strategic partners in navigating life's complexities.
+              Our team brings together diverse backgrounds in corporate law, litigation, and real estate to offer a holistic approach to your problems. We are not just your lawyers; we are your strategic partners in navigating life&apos;s complexities.
             </p>
           </div>
           
