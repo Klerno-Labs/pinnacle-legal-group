@@ -1,70 +1,75 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { Section } from "@/components/ui/Section";
+import { Calendar, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const milestones = [
-  { year: "2005", title: "Firm Founded", desc: "Pinnacle Legal Group opens its doors in downtown Houston, focusing on small business representation." },
-  { year: "2010", title: "Expansion", desc: "Grew to a team of 5 attorneys and expanded practice areas to include complex real estate litigation." },
-  { year: "2015", title: "Landmark Victory", desc: "Secured a $5M+ settlement for a local manufacturing client in a major breach of contract case." },
-  { year: "2020", title: "New HQ", desc: "Moved to our current Main Street location to better serve our growing client base." },
-  { year: "2024", title: "Innovation", desc: "Integrated advanced legal technology to improve efficiency and reduce costs for clients." },
+  {
+    year: "1998",
+    title: "Firm Established",
+    desc: "Pinnacle Legal Group opens its doors in downtown Houston with a focus on business litigation."
+  },
+  {
+    year: "2005",
+    title: "Expansion into Real Estate",
+    desc: "Recognizing the booming Texas market, we established a dedicated Real Estate division."
+  },
+  {
+    year: "2012",
+    title: "National Recognition",
+    desc: "Named to the Super Lawyers list for the first time, a distinction we have maintained annually."
+  },
+  {
+    year: "2020",
+    title: "Digital Transformation",
+    desc: "Adopted cutting-edge case management technology to improve client communication and efficiency."
+  },
+  {
+    year: "2024",
+    title: "Silver Anniversary",
+    desc: "Celebrating 25 years of service and over $50 million recovered for our clients."
+  }
 ];
 
 export function Timeline() {
   return (
-    <section className="py-24 bg-background">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="text-accent font-accent font-bold uppercase tracking-widest text-sm mb-2 block">
-            Our History
-          </span>
-          <h2 className="font-heading text-4xl font-bold text-primary">
-            A Legacy of Success
-          </h2>
-        </div>
-
-        <div className="relative max-w-4xl mx-auto">
-          {/* Vertical Line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-accent/30 -translate-x-1/2 hidden md:block" />
-
-          <div className="space-y-12">
-            {milestones.map((item, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "relative flex flex-col md:flex-row items-start md:items-center gap-8",
-                  index % 2 === 0 ? "md:flex-row-reverse" : ""
-                )}
-              >
-                {/* Dot */}
-                <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-accent rounded-full border-4 border-white -translate-x-1/2 z-10 top-0 md:top-1/2 md:-translate-y-1/2 hidden md:block shadow-sm" />
-                <div className="absolute left-4 w-4 h-4 bg-accent rounded-full border-4 border-white -translate-x-1/2 z-10 top-0 md:hidden" />
-
-                {/* Content */}
-                <motion.div
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="w-full md:w-5/12 pl-12 md:pl-0"
-                >
-                  <span className="text-accent font-accent font-bold uppercase tracking-widest text-sm mb-1 block">
-                    {item.year}
-                  </span>
-                  <h3 className="font-heading text-2xl font-bold text-primary mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-text">{item.desc}</p>
-                </motion.div>
-
-                {/* Spacer */}
-                <div className="hidden md:block w-5/12" />
-              </div>
-            ))}
-          </div>
-        </div>
+    <Section variant="grey">
+      <div className="text-center mb-16">
+        <span className="text-accent font-accent font-bold text-sm uppercase tracking-widest mb-2 block">Our History</span>
+        <h2 className="font-heading text-4xl font-bold text-primary">25 Years of Success</h2>
       </div>
-    </section>
+
+      <div className="relative max-w-4xl mx-auto">
+        {/* Center Line */}
+        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 transform md:-translate-x-1/2" />
+
+        {milestones.map((milestone, idx) => (
+          <div key={idx} className={cn(
+            "relative mb-12 md:mb-16",
+            idx % 2 === 0 ? "md:pr-1/2 md:text-right" : "md:pl-1/2 md:ml-auto"
+          )}>
+            {/* Dot */}
+            <div className={cn(
+              "absolute left-0 md:left-1/2 w-8 h-8 bg-white border-4 border-accent rounded-full -translate-x-1/2 flex items-center justify-center z-10",
+              idx % 2 === 0 ? "md:left-1/2" : "md:left-1/2"
+            )}>
+              <Calendar className="text-accent w-4 h-4" />
+            </div>
+
+            <div className={cn(
+              "ml-12 md:ml-0 md:w-1/2",
+              idx % 2 === 0 ? "md:pr-12" : "md:pl-12"
+            )}>
+              <span className="inline-block bg-accent/10 text-accent font-accent font-bold text-sm uppercase tracking-wider px-3 py-1 rounded mb-3">
+                {milestone.year}
+              </span>
+              <h3 className="font-heading text-2xl font-bold text-primary mb-2">{milestone.title}</h3>
+              <p className="text-secondary">{milestone.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
   );
 }

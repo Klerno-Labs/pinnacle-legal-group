@@ -1,99 +1,85 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Section } from "@/components/ui/Section";
+import { ArrowRight, Building2, Home, UserCheck, Briefcase, FileSignature, Landmark } from "lucide-react";
 import Link from "next/link";
-import { ArrowRight, Scale, Building2, FileText, Users, Gavel, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const areas = [
-  {
-    icon: Scale,
-    title: "Business Litigation",
-    desc: "Resolving disputes efficiently to protect your bottom line and reputation.",
-    link: "/services#litigation",
-  },
+const services = [
   {
     icon: Building2,
-    title: "Real Estate Law",
-    desc: "Navigating complex transactions, zoning issues, and property disputes.",
-    link: "/services#realestate",
-  },
-  {
-    icon: FileText,
-    title: "Estate Planning",
-    desc: "Securing your legacy with comprehensive wills, trusts, and probate services.",
-    link: "/services#estate",
-  },
-  {
-    icon: Users,
-    title: "Family Law",
-    desc: "Compassionate guidance through divorce, custody, and support matters.",
-    link: "/services#family",
-  },
-  {
-    icon: Gavel,
-    title: "Civil Defense",
-    desc: "Aggressive representation for individuals and businesses facing lawsuits.",
-    link: "/services#defense",
+    title: "Corporate Law",
+    desc: "Formation, mergers, acquisitions, and governance for businesses of all sizes.",
+    link: "/services"
   },
   {
     icon: Home,
-    title: "Construction Law",
-    desc: "Assisting contractors and developers with contracts, liens, and claims.",
-    link: "/services#construction",
+    title: "Real Estate",
+    desc: "Residential and commercial transactions, leasing, and property disputes.",
+    link: "/services"
+  },
+  {
+    icon: UserCheck,
+    title: "Estate Planning",
+    desc: "Wills, trusts, and probate administration to secure your family's legacy.",
+    link: "/services"
+  },
+  {
+    icon: Briefcase,
+    title: "Employment Law",
+    desc: "Contracts, non-competes, discrimination defense, and workplace policies.",
+    link: "/services"
+  },
+  {
+    icon: FileSignature,
+    title: "Civil Litigation",
+    desc: "Resolving disputes through negotiation, mediation, or aggressive courtroom trial.",
+    link: "/services"
+  },
+  {
+    icon: Landmark,
+    title: "Regulatory Compliance",
+    desc: "Navigating complex local, state, and federal regulations for your business.",
+    link: "/services"
   },
 ];
 
 export function PracticeAreas() {
   return (
-    <section className="py-24 bg-surface">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <span className="text-accent font-accent font-bold uppercase tracking-widest text-sm mb-2 block">
-            Our Expertise
-          </span>
-          <h2 className="font-heading text-4xl font-bold text-primary mb-4">
-            Comprehensive Legal Solutions
-          </h2>
-          <p className="text-lg text-secondary">
-            From corporate strategy to personal protection, we offer a full spectrum of legal services designed to give you peace of mind.
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {areas.map((area, index) => (
-            <motion.div
-              key={area.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group p-8 bg-background border border-transparent hover:border-accent/30 rounded-xl shadow-card hover:shadow-hover transition-all duration-300 relative"
-            >
-              <div className="w-12 h-12 bg-primary text-accent rounded-md flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-colors">
-                <area.icon className="w-6 h-6" />
-              </div>
-              <h3 className="font-heading text-xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">
-                {area.title}
-              </h3>
-              <p className="text-text text-sm leading-relaxed mb-6">
-                {area.desc}
-              </p>
-              <Link
-                href={area.link}
-                className="inline-flex items-center text-sm font-accent font-bold uppercase tracking-wider text-accent hover:text-primary transition-colors"
-              >
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+    <Section>
+      <div className="text-center max-w-3xl mx-auto mb-16">
+        <span className="text-accent font-accent font-bold text-sm uppercase tracking-widest mb-2 block">Our Expertise</span>
+        <h2 className="font-heading text-4xl font-bold text-primary mb-6">Comprehensive Legal Services</h2>
+        <p className="text-lg text-secondary">
+          We offer a full suite of legal solutions designed to protect your interests and help you thrive in a complex environment.
+        </p>
       </div>
-    </section>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map((service, idx) => (
+          <motion.div
+            key={service.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.1 }}
+            viewport={{ once: true }}
+            className="group bg-white border border-slate-100 p-8 rounded-xl shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300"
+          >
+            <div className="w-14 h-14 bg-slate-50 rounded-lg flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-white transition-colors">
+              <service.icon size={28} />
+            </div>
+            <h3 className="text-xl font-bold text-primary mb-3 font-heading">{service.title}</h3>
+            <p className="text-secondary mb-6 text-sm leading-relaxed min-h-[60px]">{service.desc}</p>
+            <Link 
+              href={service.link}
+              className="inline-flex items-center text-sm font-accent font-bold uppercase tracking-wider text-accent hover:text-primary transition-colors"
+            >
+              Learn More <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
   );
 }

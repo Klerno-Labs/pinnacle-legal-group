@@ -1,42 +1,45 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { images } from "@/config/images";
 import { Button } from "@/components/ui/Button";
+import Image from "next/image";
+import images from "@/config/images";
 
 export function CTA() {
   return (
-    <section className="py-24 bg-primary relative overflow-hidden">
+    <section className="relative py-24 bg-primary overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src={images["cta"].src}
-          alt=""
-          className="w-full h-full object-cover opacity-20"
+          alt={images["cta"].alt}
+          fill
+          className="object-cover opacity-20"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/70" />
+        <div className="absolute inset-0 bg-primary/90" />
       </div>
 
-      <div className="max-w-[1280px] mx-auto px-6 relative z-10 text-center">
+      <div className="container mx-auto px-4 relative z-10 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="max-w-3xl mx-auto"
         >
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Protect Your Future?
           </h2>
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Don't face legal challenges alone. Schedule your free, no-obligation consultation with our experienced team today.
+          <p className="text-xl text-slate-300 mb-10 leading-relaxed">
+            Schedule a free, no-obligation consultation with one of our experienced attorneys today. We are here to help you navigate your legal challenges.
           </p>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/contact">Schedule Consultation</Link>
+            <Button href="/contact" variant="primary" size="lg" className="bg-white text-primary hover:bg-slate-100">
+              Schedule Consultation
             </Button>
-            <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto bg-white/10 border-white/30 text-white hover:bg-white/20">
-               <Link href={`tel:7135550199`}>Call (713) 555-0199</Link>
+            <Button href="tel:7135550198" variant="secondary" size="lg" className="text-white border-white hover:bg-white/10">
+              Call (713) 555-0198
             </Button>
           </div>
         </motion.div>

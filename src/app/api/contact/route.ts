@@ -1,28 +1,43 @@
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
-    const { name, email, phone, message, _gotcha } = body;
+    const body = await request.json();
+    const { name, email, phone, caseType, message, _gotcha } = body;
 
-    // Honeypot check for spam prevention
+    // Honeypot check for spam
     if (_gotcha) {
-      return NextResponse.json({ message: "Spam detected" }, { status: 400 });
+      return NextResponse.json({ success: true }, { status: 200 });
     }
 
     // Basic validation
     if (!name || !email || !message) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
-    // In a real environment, you would send an email here using Nodemailer, SendGrid, or Resend
-    console.log("Form Submission Received:", { name, email, phone, message });
+    // In a real application, you would send an email here using a service like Resend, SendGrid, or Nodemailer.
+    // For this demo, we will simulate a successful API call after a delay.
+    console.log("Received Contact Form Submission:", {
+      name,
+      email,
+      phone,
+      caseType,
+      message,
+      timestamp: new Date().toISOString(),
+    });
 
-    // Simulate API delay
+    // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    return NextResponse.json({ message: "Message sent successfully" }, { status: 200 });
+    return NextResponse.json({ success: true, message: "Email sent successfully" });
   } catch (error) {
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    console.error("Contact API Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#0F172A",
-        secondary: "#334155",
-        accent: "#C5A059",
+        primary: "#0F172A", /* Deep Navy */
+        secondary: "#334155", /* Cool Grey */
+        accent: "#C5A059", /* Metallic Gold */
         background: "#F8FAFC",
         surface: "#FFFFFF",
         text: "#475569",
@@ -28,10 +28,13 @@ const config: Config = {
       boxShadow: {
         card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
         hover: "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)",
-        modal: "0 25px 50px -12px rgba(15, 23, 42, 0.25)",
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [],
 };
+
 export default config;
